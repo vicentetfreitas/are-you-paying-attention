@@ -1,63 +1,51 @@
+import "./index.scss";
+import {
+  TextControl,
+  Flex,
+  FlexBlock,
+  FlexItem,
+  Button,
+  Icon,
+} from "@wordpress/components";
+
 wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
   title: "Are You Paying attention?",
   icon: "smiley",
   category: "common",
   attributes: {
-    // skyColor: { type: "string", source: "text", selector: ".skyColor" },
-    // grassColor: { type: "string", source: "text", selector: ".grassColor" },
     skyColor: { type: "string" },
     grassColor: { type: "string" },
   },
-  edit: function (props) {
-    function updateSkyColor(event) {
-      props.setAttributes({ skyColor: event.target.value });
-    }
-    function updateGrassColor(event) {
-      props.setAttributes({ grassColor: event.target.value });
-    }
-    return (
-      <div>
-        <input
-          type="text"
-          placeholder="sky color"
-          value={props.attributes.skyColor}
-          onChange={updateSkyColor}
-        ></input>
-        <input
-          type="text"
-          placeholder="grass color"
-          value={props.attributes.grassColor}
-          onChange={updateGrassColor}
-        ></input>
-      </div>
-    );
-  },
+  edit: EditComponent,
   save: function (props) {
-    return (
-      <h3>
-        Today the sky is
-        <span className="skyColor">{props.attributes.skyColor}</span> and the
-        grass is{" "}
-        <span className="grassColor">{props.attributes.grassColor}</span>.
-      </h3>
-    );
+    return null;
   },
-  deprecated: [
-    {
-      attributes: {
-        skyColor: { type: "string" },
-        grassColor: { type: "string" },
-      },
-      save: function (props) {
-        return (
-          <p>
-            Today the sky is{" "}
-            <span className="skyColor">{props.attributes.skyColor}</span> and
-            the grass is{" "}
-            <span className="grassColor">{props.attributes.grassColor}</span>.
-          </p>
-        );
-      },
-    },
-  ],
 });
+
+function EditComponent(props) {
+  function updateSkyColor(event) {
+    props.setAttributes({ skyColor: event.target.value });
+  }
+  function updateGrassColor(event) {
+    props.setAttributes({ skyColor: event.target.value });
+  }
+  return (
+    <div className="paying-attention-edit-block">
+      <TextControl label="Question:" />
+      <p>Answers:</p>
+      <Flex>
+        <FlexBlock>
+          <TextControl />
+        </FlexBlock>
+        <FlexItem>
+          <Button>
+            <Icon icon="star-empty" />
+          </Button>
+        </FlexItem>
+        <FlexItem>
+          <Button>Delete</Button>
+        </FlexItem>
+      </Flex>
+    </div>
+  );
+}
